@@ -5,4 +5,4 @@ def test_1():
 
 
 def test_2():
-    assert (gr.lambda_expr.parse('\\var1 var2.var2(var3)')) == (['var1', 'var2'], ('var2', ['var3']))
+    assert (gr.lambda_expr.parse('\\var1 var2.var2(var3 var1)')) == (['var1', 'var2'], ('var2', ['var3', 'var1']))
