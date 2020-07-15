@@ -36,7 +36,7 @@ def definition():
     args = yield arguments
     yield ps.string(':')
     yield lmb_spaces
-    var = yield variable ^ application
+    var = yield application ^ variable
     return func_name, args, var
 
 @ps.generate
