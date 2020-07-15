@@ -36,14 +36,15 @@ def definition():
     args = yield arguments
     yield ps.string(':')
     yield lmb_spaces
-    var = yield variable
+    var = yield variable ^ application
     return func_name, args, var
 
 @ps.generate
 def application():
     '''func(arg1 arg2)'''
     func_name = yield variable
-    yield ps.string('(')
+    args = yield arguments
+    return func_name, args
 
 def main():
     pass
