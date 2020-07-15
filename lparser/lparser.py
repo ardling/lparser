@@ -46,6 +46,14 @@ def application():
     args = yield arguments
     return func_name, args
 
+
+@ps.generate
+def program():
+    defs = yield ps.sepBy(definition, ps.string("\n"))
+    app = yield application
+    return defs, app
+
+
 def main():
     pass
 
