@@ -26,7 +26,12 @@ def test_definition_2():
 
 def test_program_1():
     text = '''def func1(arg1): arg1
+def f1(a): a
 func1(aaa)'''
-    res = ([('func1', ['arg1'], 'arg1')],
-           ('func1', ['aaa']))
+    res = (
+        [
+            ('func1', ['arg1'], 'arg1'),
+            ('f1', ['a'], 'a')
+        ],
+        ('func1', ['aaa']))
     assert (gr.program.parse(text) == res)
