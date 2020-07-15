@@ -21,19 +21,29 @@ def lambda_expr():
     body = yield lambda_expr ^ variable
     return tuple(vals), body
 
+@ps.generate
+def arguments():
+    yield ps.string('(')
+    args = yield ps.sepBy(variable, lmb_spaces)
+    yield ps.string(')')
+    return args
 
 @ps.generate
 def definition():
     '''def func_name(arg1 arg2 arg3): arg1'''
     yield ps.string('def ')
     func_name = yield variable
-    yield ps.string('(')
-    args = yield ps.sepBy(variable, lmb_spaces)
-    yield ps.string('):')
+    args = yield arguments
+    yield ps.string(':')
     yield lmb_spaces
     var = yield variable
     return func_name, args, var
 
+@ps.generate
+def application():
+    '''func(arg1 arg2)'''
+    func_name = yield variable
+    yield ps.string('(')
 
 def main():
     pass
