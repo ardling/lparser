@@ -8,19 +8,7 @@ variable = ps.regex(r'[_a-zA-Z][_a-zA-Z1-9]*')
 lmb_none = ps.string('')
 
 
-@ps.generate
-def app():
-    '''application: a(b c d)'''
-    func = yield variable
-    yield ps.string('(')
-    args = yield ps.sepBy(variable, lmb_spaces)
-    yield ps.string(')')
-    return func, tuple(args)
-
 # lambda_expr = ps.string('\\') >> ps.string('.')
-
-lambda_body = app ^ variable
-
 
 @ps.generate
 def lambda_expr():
@@ -28,7 +16,9 @@ def lambda_expr():
     yield ps.string('\\')
     vals = yield ps.sepBy(variable, lmb_spaces)
     yield ps.string('.')
-    body = yield lambda_body
+
+    # body is expr (\a.\b.a b) or variable (\a. a)
+    body = yield lambda_expr ^ variable
     return tuple(vals), body
 
 

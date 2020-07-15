@@ -1,13 +1,9 @@
 import lparser.lparser as gr
 
-def test_1():
+
+def test_expr_1():
     assert (gr.lambda_expr.parse('\\var1 var2.var1')) == (('var1', 'var2'), 'var1')
 
 
-def test_2():
-    assert (gr.lambda_expr.parse('\\var1 var2.var2(var3 var1)')) == (('var1', 'var2'), ('var2', ('var3', 'var1')))
-
-
-def _test_3():
-    assert gr.lambda_expr.parse('\\var1.\\var2.var1 var2') == (['var1'], 
-                                                                  (['var2'], ()))
+def test_expr_2():
+    assert (gr.lambda_expr.parse('\\var1.\\var2.var1')) == (('var1',), (('var2',), 'var1'))
