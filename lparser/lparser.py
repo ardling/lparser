@@ -2,7 +2,8 @@
 
 import parsec as ps
 
-lmb_spaces = ps.regex(r'\s*')  # any number of spaces
+lmb_newlines = ps.regex(r'\s*\n\s*', ps.re.MULTILINE)  # new line and spaces
+lmb_spaces = ps.regex(r'\s*', ps.re.MULTILINE)  # any number of spaces
 
 variable = ps.regex(r'[_a-zA-Z][_a-zA-Z1-9]*')
 lmb_none = ps.string('')
@@ -37,6 +38,7 @@ def definition():
     yield ps.string(':')
     yield lmb_spaces
     var = yield application ^ variable
+    yield lmb_newlines
     return func_name, args, var
 
 @ps.generate
@@ -49,8 +51,13 @@ def application():
 
 @ps.generate
 def program():
-    defs = yield ps.sepBy(definition, ps.string("\n"))
+    yield lmb_spaces
+    print("----")
+    #defs = yield ps.sepEndBy1(definition, lmb_newlines)
+    defs = yield ps.many(definition)
+    print("defs")
     app = yield application
+    yield lmb_spaces
     return defs, app
 
 

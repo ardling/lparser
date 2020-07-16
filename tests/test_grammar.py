@@ -15,12 +15,12 @@ def test_application_1():
 
 
 def test_definition_1():
-    assert (gr.definition.parse('def func(arg1 arg2 arg3): arg1') == 
+    assert (gr.definition.parse('def func(arg1 arg2 arg3): arg1\n') == 
                                    ('func', ['arg1', 'arg2', 'arg3'], 'arg1'))
 
 
 def test_definition_2():
-    assert (gr.definition.parse('def func(arg1 arg2 arg3): func2(arg1 arg3)') == 
+    assert (gr.definition.parse('def func(arg1 arg2 arg3): func2(arg1 arg3)\n') == 
                                 ('func', ['arg1', 'arg2', 'arg3'], ('func2', ['arg1', 'arg3'])))
 
 
@@ -28,6 +28,22 @@ def test_program_1():
     text = '''def func1(arg1): arg1
 def f1(a): a
 func1(aaa)'''
+    res = (
+        [
+            ('func1', ['arg1'], 'arg1'),
+            ('f1', ['a'], 'a')
+        ],
+        ('func1', ['aaa']))
+    assert (gr.program.parse(text) == res)
+
+
+def test_program_2():
+    text = ''' 
+    def func1(arg1): arg1
+
+    def f1(a): a
+    func1(aaa)
+    '''
     res = (
         [
             ('func1', ['arg1'], 'arg1'),
