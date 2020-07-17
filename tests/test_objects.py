@@ -21,3 +21,33 @@ def test_program_1():
     pprint('Exec')
     pprint(prog.exec())
     assert prog.exec() == 'abc'
+
+
+
+def test_program_2():
+    text = '''
+    def a() {"result"}
+    def b() {a()}
+    b()'''
+    res = lp.parse(text)
+    assert res.exec() == 'result'
+
+
+def test_program_3():
+    text = '''
+    def a() {"a"}
+    def b() {"b"}
+    def c(a) {a()}
+    c(b)'''
+    res = lp.parse(text)
+    assert res.exec() == 'b'
+
+
+def test_program_4():
+    text = '''
+    def a() {"a"}
+    def b() {"b"}
+    def c(g) {a()}
+    c(b)'''
+    res = lp.parse(text)
+    assert res.exec() == 'a'
